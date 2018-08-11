@@ -1,0 +1,102 @@
+<div class="push8"></div>
+<div class="container">
+	<div class="card p-3 mb-5 bg-light">
+		<div class="row">
+			<div class="col-12">
+				<h3 class="text-info mb-3 border-bottom">Job Details</h3>					
+				<div class="row pb-3">
+					<div class="col-md-6">
+						<li class="">Company: <b>{{this.company}}</b></li>
+						<li>Contact Name: <b>{{this.contactName}}</b></li>
+						<li>Contact Phone: <b>{{this.contactPhone}}</b></li>
+					</div>
+					<div class="col-md-6">
+						<li> Position: <b>{{this.position}}</b></li>
+						<li> Job Location: <b>{{this.jobLocation}}</b></li>
+						<li> Remote Available: <b>{{this.remote_available}}</b></li>
+						<li> Posted Annual Salary: <b>{{this.postedSalary}}</b></li>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<h3 class="text-info mb-3 border-bottom">Edit Job Details</h3>	
+		<div class="row">
+			<div class="col-md-6">
+				<div data-toggle="collapse" action="{{savedJob}}?_method=GET" method="POST" class="">
+					<div class="form-group d-none">
+						<label for="editCompany" id="chCompany">Job ID</label>
+						<input type="text" class="form-control text-dark" id="chComp" placeholder="{{id}}">
+					</div>
+
+					<label for="editContact" class="text-secondary mt-2" id="chContact">Edit Contact Name</label>
+					<div class="input-group">
+						<input type="text" class="form-control text-dark" id="chCont" placeholder="{{contactName}}">
+						<button class="btn btn-success btn-sm" id="saveContChanges">Save Changes</button>
+					</div>
+					
+					<label for="editPhone" class="text-secondary mt-2" id="chContPhone">Edit Contact Phone</label>
+					<div class="input-group">		
+						<input type="text" class="form-control" id="chPhone" placeholder="{{contactPhone}}">
+						<button class="btn btn-success btn-sm" id="savePhoneChanges">Save Changes</button>
+					</div>
+					
+					<label for="editConf" class=" mt-4 mb-0" id="chConf">Edit Confidence Level</label>
+					<p class="text-secondary mb-0"> Current: <b>{{this.confidenceLevel}}</b></p>
+					<div class="input-group">
+						<select class="form-control" id="chConfidence">
+							<option>1</option>
+							<option>2</option>
+							<option>3</option>
+							<option>4</option>
+							<option>5</option>
+						</select>
+						<button class="btn btn-success btn-sm" id="chConfidenceBtn">Save Changes</button>
+					</div>
+
+					<div class="text-center">
+					
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="card p-3 mt-3 opaque border-dark myShadow">
+					<h4 for="addCom" class="text-info" id="addComm"><b>Add a Comment</b></h4>
+					<textarea type="text" class="mb-2 addC" id="addC" placeholder="Type a comment"></textarea>
+					<div class="text-right">
+						<button class="btn btn-success btn-sm addComment" id="addComment">Add Comment</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<h3 class="text-info  mt-3 mb-3 border-bottom">Your Comments</h3>	
+		<div class="row pt-3">
+				{{#if this.comments}}
+					{{#each this.comments }}
+						<div class="col-12">
+							<div id="hideDiv{{this.dataValues.id}}" class="card p-3 border-dark mb-3" action="?_method=GET" method="POST">
+								<label for="comment" class="text-dark"><b>Comment</b> <small class="text-info">{{this.dataValues.updatedAt}}</small></label>
+								<textarea class="form-control mb-2 editdata{{this.dataValues.id}}" rows="5" id="commentBox editdata{{this.dataValues.id}}" placeholder="{{this.dataValues.comment}}"></textarea>
+								<div class="d-flex justify-content-end">
+									<button class="btn btn-danger btn-sm deleteComment" id="deleteComment" value="{{this.dataValues.id}}">Delete</button>
+									<button class="btn btn-primary btn-sm editComment" id="editComment" value="{{this.dataValues.id}}">Update Comment</button>
+								</div>
+								
+							</div>
+						</div>
+					{{/each}}
+				{{/if}}
+			</div>
+			<div class="d-flex justify-content-end">
+				<h3 class="btn btn-danger btn-small border-dark" id="deleteJob">Delete This Job Lead</h3>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+

@@ -1,0 +1,52 @@
+<div class="push8"></div>
+<div class="container pb-5">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card p-3 m-1 row bg-light border-secondary mb-6">
+				<h3 class="text-dark p-3 LuckyFont">Home - <span class="text-info"> my leads</span></h3>
+				<div class="row">
+					
+					{{#if savedJob}}
+						{{#each savedJob}}
+							<div data-toggle="collapse" action="{{savedJob}}?_method=GET" method="POST" class=" col-md-6 col-lg-4">
+								<div class="card p-3 mb-3 bg-warning myShadow opaque">
+									<div class="row">
+										<div class="col-12">
+											<p class="border-bottom1 border-secondary mb-0 pb-0"><b>{{company}}</b></p>
+											<p><i>{{this.position}}</i></p>
+											<p class="mb-0 text-secondary"><b>Contact Info</b></p>
+											<p class="mb-0">name: {{this.contactName}}</p>
+											<p class="mb-0"> phone: {{this.contactPhone}}</p>
+												{{!-- <p> Contact Name: {{this.contactPhone}}</p>
+												<p> Position: {{this.position}}</p>
+												<p> Job Location: {{this.jobLocation}} </p>
+												<p> Remote Available: {{this.remote_available}}</p>
+												<p> Confidence level: {{this.confidenceLevel}}</p>
+												<p> Notes to Self: {{this.notes_to_self}} </p>
+												<p> Posted Annual Salary: {{this.postedSalary}} </p> --}}
+										</div>
+										<div class="col-12 text-right">
+																										
+											<a href="/home/{{id}}"><button class="btn btn-info" >Select</button></a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<br>
+						{{/each}}
+					{{else}}
+						<div class="col-12 text-center">
+							<h6 class="text-center text-danger">You have no saved jobs</h6>
+						</div>
+								
+					{{/if}}
+				</div>
+			</div>
+		</div>
+	</div>	
+		
+
+</div>
+	
+
+

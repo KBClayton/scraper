@@ -1,0 +1,187 @@
+<div class="push8"></div>
+<div class="container">
+	<div class="row">
+		<div class="col-md-1"></div>
+		<div class="col-md-10">
+			<div class="card p-3 bg-light border-secondary mb-3 opaque">
+				<h3 class="bg-info text-light text-center p-3 border border-dark">Find a Job with <b class="text-dark">Authentic Jobs</b></h3>
+				<br>
+				<div class="row" id="jobQueryAJDisplay">
+          <div class="col-md-12">
+						<div class="form-group text-center">What is your main area of expertise?
+							<select multiple class="form-control text-left border-dark" name="jobKeywordSearchAJ" id="jobKeywordSearchAJ">
+								<option value="5">Apps</option>
+								<option value="2">Back-End Engineering</option>
+								<option value="12">Content &amp Copywriting</option>
+								<option value="11">Customer &amp Community</option>
+								<option value="3">Design &amp User Experience</option>
+								<option value="4">Front-End Engineering</option>
+								<option value="6">Management</option>
+								<option value="8">Marketing &amp Sales</option>
+								<option value="10">Product Management</option>
+							</select>
+						</div>
+
+						{{!-- <div class="row" id="locationDisplayHolder" style="display: none">
+							<div class="col-md-12 text-center"> --}}
+									{{!-- <span id="locationDisplayHolder" style="display: none"><button type="button" class="btn btn-danger rounded locationDisplayBtn" margin="auto">Narrow Search By Location</button></span> --}}
+							{{!-- </div>
+						</div> --}}
+
+						<div class="row" id="locationHolderAJ">
+							<div class="col-md-12 text-center" id="cityInputAJ">
+								<p class="mb-0">Where would you like to work?</p>	
+								<div class="form-row text-left">
+									<div class="col-md-5 mb-2">
+										<input type="text" class="form-control border-dark" name="jobLocationCityAJ" id="jobLocationCityAJ" placeholder="City">
+									</div>
+									<div class="col-md-4 mb-2" id="stateInputAJ">
+										<select class="form-control border-dark" id="jobLocationStateAJ">
+											<option value="" selected="selected">State (Required)</option>
+											<option value="al">Alabama</option>
+											<option value="ak">Alaska</option>
+											<option value="az">Arizona</option>
+											<option value="ar">Arizona</option>
+											<option value="ca">California</option>
+											<option value="co">Colorado</option>
+											<option value="ct">Connecticut</option>
+											<option value="dc">District of Columbia</option>
+											<option value="fl">Florida</option>
+											<option value="ga">Georgia</option>
+											<option value="hi">Hawaii</option>
+											<option value="id">Idaho</option>
+											<option value="il">Illinois</option>
+											<option value="in">Indiana</option>
+											<option value="ia">Iowa</option>
+											<option value="ks">Kansas</option>
+											<option value="ky">Kentucky</option>
+											<option value="la">Louisiana</option>
+											<option value="me">Maine</option>
+											<option value="md">Maryland</option>
+											<option value="ma">Massachusets</option>
+											<option value="mi">Michigan</option>
+											<option value="mn">Minnesota</option>
+											<option value="ms">Mississippi</option>
+											<option value="mo">Missouri</option>
+											<option value="mt">Montana</option>
+											<option value="ne">Nebraska</option>
+											<option value="nv">Nevada</option>
+											<option value="nh">New Hampshire</option>
+											<option value="nj">New Jersey</option>
+											<option value="nm">New Mexico</option>
+											<option value="ny">New York</option>
+											<option value="nc">North Carolina</option>
+											<option value="nd">North Dakota</option>
+											<option value="oh">Ohio</option>
+											<option value="ok">Oklahoma</option>
+											<option value="or">Oregon</option>
+											<option value="pa">Pennsylvania</option>
+											<option value="pr">Puerto Rico</option>
+											<option value="ri">Rhode Island</option>
+											<option value="sc">South Carolina</option>
+											<option value="sd">South Dakota</option>
+											<option value="tn">Tennessee</option>
+											<option value="tx">Texas</option>
+											<option value="ut">Utah</option>
+											<option value="vt">Vermont</option>
+											<option value="va">Virginia</option>
+											<option value="wa">Washington</option>
+											<option value="wv">West Virginia</option>
+											<option value="wi">Wisconsin</option>
+											<option value="wy">Wyoming</option>
+
+										</select>
+									</div>
+									<div class="col-md-3 mb-2">
+										<button type="button" class="btn btn-danger rounded form-control showAllJobsBtn" margin="auto" style="justify-content: center">Show All Jobs</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<br>
+
+						<div class="row radioToggleAJ">
+							<div class="col-md-12 form-group p-3 text-center">
+								<div class="form-check">
+									<label class="form-check-label radio-inline" for="tcIncludeRadio">
+										<input type="radio" id="tcIncludeRadio" name="optionsRadio" class="form-check-input" checked="checked">
+										<span>Include Telecommuting Jobs</span>	
+									</label>
+								</div>
+								<div class="form-check">
+									<label class="form-check-label radio-inline" for="tcExcludeRadio">
+										<input type="radio" id="tcExcludeRadio" name="optionsRadio" class="form-check-input">
+										<span>Exclude Telecommuting Jobs</span>	
+									</label>
+								</div>
+								<div class="form-check">
+									<label class="form-check-label radio-inline" for="tcOnlyRadio">
+										<input type="radio" id="tcOnlyRadio" name="optionsRadio" class="form-check-input">
+										<span>Only Show Telecommuting Jobs</span>
+									</label>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-12 submitBtnHolderAJ">
+								<div class="text-center">
+									<span id="locationDisplayHolder" style="display: none"><button type="button" class="btn btn-danger rounded locationDisplayBtn" margin="auto">Include Location</button></span>
+									<button class="btn btn-success" id="submit-jobSearchAJ" margin="auto">Run Search!</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+        </div>
+      </div>
+
+			<div id="jobTableAJDisplay" class="card p-3 bg-light opaque border-dark" style="display: none">
+				<h4>Jobs Found</h4>
+				<!--bootstrap responsive table with 6 columns-->
+				<div class="table-responsive bg-white">
+					<table class="table table-bordered table-hover mb-0" id="jobTableAJ">
+						<thead id="jobTableAJHeader">
+							<tr>
+								<th scope="col">Position</th>
+								<th scope="col">Hiring Agency</th>
+								<th scope="col">Location</th>
+								<th scope="col">Job Link</th>
+								<th scope="col">Add Job to my List</th>
+							</tr>
+						</thead>
+					<!--table body, will hold data retrieved from API query-->
+						<tbody id="jobTableAJBody"></tbody>
+					</table> 
+				</div> 
+					<!--div to hold button-->
+				<div class="changeSearchBtnHldr mt-2 text-center">
+						<!--button to choose a different satellite type-->
+						<button type="button" class="btn btn-danger rounded changeSearchAJBtn" >Try a Different Search</button>
+				</div>   
+			</div>
+		</div>
+		<div class="col-md-1"></div>
+	</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade push20" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-danger" id="modalTitle"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="mb-0" id="modalBody"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

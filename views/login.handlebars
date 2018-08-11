@@ -1,0 +1,40 @@
+
+<script src="/js/loginPageStyle.js"></script>
+<div class="push20"></div>
+</div>
+<div class="text-center bg-info text-light p-3 customBorder opaque">
+  <h3 class="mb-0 LuckyFont text-dark">PLEASE SIGN IN</h3>
+  <p class="text-dark mb-3">Sign in and get started today!</p>
+  <div class="pb-0">
+    <input id="usernameSignIn" class="rounded" type="text" placeholder="Username">
+  </div>
+  <div class="mt-2">
+    <input id="passwordSignIn" class="rounded" type="password" placeholder="Your Password...">
+  </div>
+  <a href="/createProfile" class="link"><p class="text-dark font-weight-bold mt-3">Create FREE Account</p></a>
+  <button class="btn btn-success border border-dark" id="signInBtn">Sign In</button>
+</div>
+
+<!-- Modal -->
+<div class="modal fade push20" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-danger" id="exampleModalLongTitle">Sign In Failed</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="mb-0">The UserName and/or Password you entered are incorrect.</p>  
+        <p class="mb-0">Please try again or sign up for a <b>FREE</b> account now.</p> 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Try Again</button>
+        <a href="/createProfile"><button type="button" class="btn btn-primary">New Account</button></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+

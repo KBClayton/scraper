@@ -1,0 +1,35 @@
+<div class="push20"></div>
+<div class="">
+    <div class="text-center bg-info text-light p-3 border-top border-custom border-bottom1 opaque">
+      <h3 class="mb-0 text-dark LuckyFont"><b>Change Password</b></h3>
+      <div class="mt-2">
+        <input class="border-dark p-1" id="oldpassword" type="password" placeholder="Current Password" >
+      </div>
+      <div class="mt-2">
+        <input class="border-dark p-1" id="newpassword1" type="password" placeholder="New Password" >
+      </div>
+      <div class="mt-2">
+        <input class="border-dark p-1" id="newpassword2" type="password" placeholder="Verify New Password" >
+      </div>
+      <button class="btn btn-success mt-3 border border-dark" id="changepass">Update password</button>
+  </div>
+</div>
+<!-- Modal -->
+<div class="modal fade push20" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-danger" id="modalTitle"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="mb-0" id="modalBody"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
