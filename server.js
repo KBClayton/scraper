@@ -1,107 +1,151 @@
 var express = require("express");
-var mongojs = require("mongojs");
-var request = require("request");
+var bodyParser = require("body-parser");
+var logger = require("morgan");
+var mongoose = require("mongoose");
+
+// Our scraping tools
+// Axios is a promised-based http library, similar to jQuery's Ajax method
+// It works on the client and on the server
+var axios = require("axios");
 var cheerio = require("cheerio");
-var mongoose= require("mongoose")
+
+// Require all models
+var db = require("./models");
+
+var PORT = 3000;
+
+// Initialize Express
 var app = express();
 
+// Configure middleware
 
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/slashdotScraper";
+app.use(logger("dev"));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static("public"));
+
+
+
+
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/slashdotscraper";
 
 mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI);
-//var databaseUrl = "slashdotScraper";
-var collections = ["slashdotData"];
-app.use(express.static("public"));
 
-var db = mongojs(MONGODB_URI, collections);
-db.on("error", function(error) {
-  console.log("Database Error:", error);
-});
+// Routes
 
-app.get("/", function(req, res) {
-  res.send("Hello world");
-});
+app.get("/slashdot", function(req, res) {
+  let titles=[];
+  let links=[];
+  let results=[];
+  axios.get("https://slashdot.org/").then(function(response) {
+    var $ = cheerio.load(response.data);
+    $("span.story-title").each(function(i, element) {
+      // Save an empty result object
+      //var result = {};
+      //console.log(element)
 
-
-app.get("/viewdata", function(req, res) {
-  db.scraper.find( function(error, found) {
-    if (error) {
-      console.log(error);
-    }
-    else {
-      res.json(found);
-    }
-  });
-});
-
-
-
-app.get("/getdata", function(req, res) {
-  request("https://www.nhl.com/", function(error, response, html) {
-
-    // Load the body of the HTML into cheerio
-    var $ = cheerio.load(html);
-
-    // Empty array to save our scraped data
-    var results = [];
-
-    // With cheerio, find each h4-tag with the class "headline-link" and loop through the results
-    $("h4.headline-link").each(function(i, element) {
-
-      // Save the text of the h4-tag as "title"
-      var title = $(element).text();
-
-      // Find the h4 tag's parent a-tag, and save it's href value as "link"
-      var link = $(element).parent().attr("href");
-
-      // Make an object with data we scraped for this h4 and push it to the results array
-      results.push({
-        title: title,
-        link: link
+      // Add the text and href of every link, and save them as properties of the result object
+      title = $(this).children("a")
+        .text();
+      titles.push(title)
+      //console.log(title)
+    })
+    $("a.story-sourcelnk").each(function(i, element) {
+      link = $(this)
+        .attr("href");
+      links.push(link)
+      //console.log(link);
+    });
+    //console.log(titles[1])
+    //console.log(links[1])
+    for(let i=0; i<titles.length; i++){
+      //console.log("In for loop "+titles.length+"  "+links.length)
+      var result={};
+      result.link=links[i];
+      result.title=titles[i];
+      results.push(result)
+      //console.log(result)
+    
+      // Create a new Article using the `result` object built from scraping
+      //console.log(results[i].link)
+      db.Article.findOne({link:results[i].link}).then(function(dbreply){
+        //console.log("dbreply is"+dbreply)
+        //console.log(dbreply);
+        if(dbreply===null){
+          //console.log("in if statement")
+          db.Article.create(results[i])
+            .then(function(dbArticle) {
+              // View the added result in the console
+              console.log(dbArticle);
+            })
+            .catch(function(err) {
+              // If an error occurred, send it to the client
+              return res.json(err);
+            });
+        }
+      }).catch(function(err) {
+        // If an error occurred, send it to the client
+        return res.json(err);
       });
-    });
+    }
+    
 
-    // After looping through each h4.headline-link, log the results
-    console.log(results);
-    results.forEach(element => {
-      db.scraper.insert({title: element.title, link:element.link})
-    });
-
+    // If we were able to successfully scrape and save an Article, send a message to the client
+    res.send("Scrape Complete");
   });
-}); 
+});
 
-app.get("/slashdot", function(req, res){
-  request("https://slashdot.org/", function(error, response, html) {
-
-
-  var $ = cheerio.load(html);
-
-  var results = [];
-
-  $("a.story-sourcelnk").each(function(i, element) {
-    console.log(element);
-    var title = $(element).text();
-
-    var link = $(element).attr("href");
-
-    results.push({
-      title: title,
-      link: link
+// Route for getting all Articles from the db
+app.get("/articles", function(req, res) {
+  // Grab every document in the Articles collection
+  db.Article.find({})
+    .then(function(dbArticle) {
+      // If we were able to successfully find Articles, send them back to the client
+      res.json(dbArticle);
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      res.json(err);
     });
-    results.forEach(element => {
-      //if(db.slashdotScraper.findOne({link:element.link})){
-        db.slashdotScraper.insert({title: element.title, link:element.link})
-     // }
+});
+
+// Route for grabbing a specific Article by id, populate it with it's note
+app.get("/articles/:id", function(req, res) {
+  // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
+  db.Article.findOne({ _id: req.params.id })
+    // ..and populate all of the notes associated with it
+    .populate("note")
+    .then(function(dbArticle) {
+      // If we were able to successfully find an Article with the given id, send it back to the client
+      res.json(dbArticle);
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      res.json(err);
     });
-  });
-})
-})
+});
 
-app.get("/clear", function(req, res){
-  db.slashdotScraper.drop()
-})
+// Route for saving/updating an Article's associated Note
+app.post("/articles/:id", function(req, res) {
+  // Create a new note and pass the req.body to the entry
+  db.Note.create(req.body)
+    .then(function(dbNote) {
+      // If a Note was created successfully, find one Article with an `_id` equal to `req.params.id`. Update the Article to be associated with the new Note
+      // { new: true } tells the query that we want it to return the updated User -- it returns the original by default
+      // Since our mongoose query returns a promise, we can chain another `.then` which receives the result of the query
+      return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
+    })
+    .then(function(dbArticle) {
+      // If we were able to successfully update an Article, send it back to the client
+      res.json(dbArticle);
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      res.json(err);
+    });
+});
 
-app.listen(3000, function() {
-  console.log("App running on port 3000!");
+// Start the server
+app.listen(PORT, function() {
+  console.log("App running on port " + PORT + "!");
 });
